@@ -9,13 +9,14 @@ solver.solve() // try everything until finished
 */
 
 // Load other modules:
-if (typeof DigitSet === 'undefined')
-	var DigitSet = require('./digitset.js');
-if (typeof Viewer === 'undefined')
-	var Viewer = require('./viewer.js');
-if (typeof _ === 'undefined')
-	var _ = require('lodash');
-
+if (typeof require !== "undefined") {
+  if (typeof DigitSet === 'undefined')
+  	var DigitSet = require('./digitset.js');
+  if (typeof Viewer === 'undefined')
+  	var Viewer = require('./viewer.js');
+  if (typeof _ === 'undefined')
+  	var _ = require('lodash');
+}
 
 var Solver = (function() {
 

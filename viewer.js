@@ -6,6 +6,7 @@ var Viewer = (function() {
 
   function Viewer(grid) {
     this.grid = grid;
+    this.solver = null;
     this.album = [];
   }
 
@@ -16,6 +17,7 @@ var Viewer = (function() {
 
   Viewer.prototype.show = Viewer.prototype.drawSelf;
   Viewer.prototype.showCertain = Viewer.prototype.drawSelf;
+  // Viewer.prototype.showCertain = Viewer.prototype.drawHTMLBoard;
 
   Viewer.prototype.createASCIIBoard = function(str){
     var board = ""; // the string we will build up and eventually return
@@ -43,24 +45,46 @@ var Viewer = (function() {
   };
 
   Viewer.prototype.drawHTMLBoard = function (target) {
-    var digitSets = this.grid.getAllDigitSets();
     if (arguments.length === 0) {
       target = document.body;
     }
+    var digitSets = this.grid.getAllDigitSets();
     var table = document.createElement('table');
     for (var row = 0; row < 9; row++) {
-      console.log("make a new row");
       var newRow = document.createElement('tr');
       for (var col = 0; col < 9; col++) {
         var cell = document.createElement('td');
-        cell.textContent = digitSets[row * 9 + col];
-        // cell.innerHtml = '<p>X</p>';
+        var thisDigitSet = digitSets[row * 9 + col];
+        if (thisDigitSet.isUncertain()) {
+          cell.classList.add("tiny");
+        }
+        cell.innerHTML = thisDigitSet.toString(" ");
+        if (col === 0) {
+          cell.classList.add("farLeft");
+        } else if (col % 3 === 0) {
+          cell.classList.add("thirdCol")
+        }
+        if (col === 8) {
+          cell.classList.add("farRight");
+        }
+        if (row === 0) {
+          cell.classList.add("farTop");
+        } else if (row % 3 === 0) {
+          cell.classList.add("thirdRow");
+        }
+        if (row === 8) {
+          cell.classList.add("farBottom");
+        }
+        cell.onclick = makeClickHandler(this, row * 9 + col);
         newRow.appendChild(cell);
       }
       table.appendChild(newRow);
     }
     table.setAttribute("id", "board");
     
+    if (target.childNodes.length > 0) {
+      target.removeChild(target.lastChild);
+    }
     target.appendChild(table)
   }
 
@@ -78,13 +102,25 @@ var Viewer = (function() {
     this.album.push(pic);
     return pic;
   };
-
+  
+  Viewer.prototype.setSolver = function (solver) {
+    this.solver = solver;
+  }
   // TODO: When we have an interface.
   // Viewer.prototype.playBack = function() {
   //
   //  setInterval(1000)
   // };
   return Viewer;
+  
+  function makeClickHandler(context, cellID) {
+    var solver = this.solver;
+    return function () {
+      // solver.trim();
+      solver.trimCell(cellID);
+      context.drawHTMLBoard(document.getElementById('puzzle'));
+    }
+  }
   
 })();
 

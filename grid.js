@@ -236,7 +236,15 @@ var Grid = (function() {
   }
 
   Grid.prototype.save = function () {
-    return this.allCells.slice();
+    var saveArray = [];
+    this.allCells.forEach(function (e) {
+      var newDigitSet = new DigitSet();
+      newDigitSet.set(e.toArray());
+      saveArray.push(newDigitSet);
+    })
+    return saveArray;
+    // return _.cloneDeep(this.allCells);
+    // return this.allCells.slice();
   };
 
   Grid.prototype.restore = function (state) {

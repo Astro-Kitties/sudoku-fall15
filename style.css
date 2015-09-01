@@ -1,0 +1,40 @@
+table {
+    font-family: "Helvetica Neue", Helvetica;
+    border-collapse: collapse;
+    padding: 0px;
+    margin: 0px;
+    table-layout: fixed;
+    width: 200px;
+}
+
+td {
+    border: 1px solid #DDD;
+    margin: 0px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    word-wrap: break-word;
+    cursor: pointer;
+}
+td.tiny {
+    font-size: 8px;
+}
+td.thirdCol {
+    border-left: 2px solid black;
+}
+td.thirdRow {
+    border-top: 2px solid black;
+}
+
+td.farLeft {
+    border-left: 4px solid black;
+}
+td.farRight {
+    border-right: 4px solid black;
+}
+td.farTop {
+    border-top: 4px solid black;
+}
+td.farBottom {
+    border-bottom: 4px solid black;
+}
